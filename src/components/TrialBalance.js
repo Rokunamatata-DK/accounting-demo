@@ -2,61 +2,46 @@ import React, { useState, useEffect } from 'react';
 
 function TrialBalance() {
     const [data, setData] = useState([]);
-    const [accountTypes, setAccountTypes] = useState([]);
-    const [filteredData, setFilteredData] = useState([]);
-    const [filter, setFilter] = useState('');
-    const [selectedAccountTypes, setSelectedAccountTypes] = useState({});
-    const [totalRevenue, setTotalRevenue] = useState(0);
-    const [totalExpenses, setTotalExpenses] = useState(0);
-    const [ytdTotalRevenue, setYtdTotalRevenue] = useState(0);
-    const [ytdTotalExpenses, setYtdTotalExpenses] = useState(0);
     const [error, setError] = useState(null);
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [totalCredits, setTotalCredits] = useState(0);
+    const [totalDebits, setTotalDebits] = useState(0);
 
-    useEffect(() => {
-        fetch('/data.json')
+    // const formatDate = (dateString) => {
+    //     const [year, month, day] = dateString.split('-');
+    //     return `${day}/${month}/${year}`;
+    // };
+
+    const fetchData = () => {
+        const endpointUrl = "http://127.0.0.1:5000/trial_balance";
+
+        const headers = {
+            "Content-Type": "application/json",
+            "start": startDate,
+            "end": endDate
+        };
+
+        fetch(endpointUrl, {
+            method: "POST",
+            headers: headers
+        })
             .then(response => response.json())
             .then(data => {
                 setData(data.trialBalance);
-                setFilteredData(data.trialBalance);
-                setAccountTypes(data.accountTypes);
-
-                const initialSelection = {};
-                data.accountTypes.forEach(type => initialSelection[type] = true);
-                setSelectedAccountTypes(initialSelection);
-
-                const revenue = data.trialBalance.reduce((sum, item) => sum + (item.credit || 0), 0);
-                const expenses = data.trialBalance.reduce((sum, item) => sum + (item.debit || 0), 0);
-                const ytdRevenue = data.trialBalance.reduce((sum, item) => sum + (item.ytdCredit || 0), 0);
-                const ytdExpenses = data.trialBalance.reduce((sum, item) => sum + (item.ytdDebit || 0), 0);
-
-                setTotalRevenue(revenue);
-                setTotalExpenses(expenses);
-                setYtdTotalRevenue(ytdRevenue);
-                setYtdTotalExpenses(ytdExpenses);
+                setTotalCredits(data.Total_Credits);
+                setTotalDebits(data.Total_Debits);
             })
             .catch(error => {
                 setError(error.toString());
             });
-    }, []);
+    };
+
+
 
     useEffect(() => {
-        const results = data.filter(item => {
-            const matchText = filter ? item.account.toLowerCase().includes(filter.toLowerCase()) : true;
-            const matchCheckbox = selectedAccountTypes[item.account];
-            return matchText && matchCheckbox;
-        });
-        setFilteredData(results);
-    }, [filter, selectedAccountTypes, data]);
-
-    const selectAll = () => {
-        const allSelected = {};
-        accountTypes.forEach(type => allSelected[type] = true);
-        setSelectedAccountTypes(allSelected);
-    };
-
-    const unselectAll = () => {
-        setSelectedAccountTypes({});
-    };
+        fetchData();
+    }, [startDate, endDate]);
 
     if (error) {
         return <div>Error: {error}</div>;
@@ -64,64 +49,50 @@ function TrialBalance() {
 
     return (
         <div>
-            <input type="text" placeholder="Search by account" onChange={e => setFilter(e.target.value)} />
+            <label>
+                Start Date:
+                <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+            </label>
 
-            {accountTypes.map(type => (
-                <label key={type}>
-                    <input
-                        type="checkbox"
-                        checked={!!selectedAccountTypes[type]}
-                        onChange={() => setSelectedAccountTypes(prev => ({ ...prev, [type]: !prev[type] }))}
-                    />
-                    {type}
-                </label>
-            ))}
+            <label>
+                End Date:
+                <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+            </label>
 
-            <button onClick={selectAll}>Select All</button>
-            <button onClick={unselectAll}>Unselect All</button>
+            <button onClick={fetchData}>Fetch Data</button>
 
             <table>
                 <thead>
                     <tr>
-                        <th>Account</th>
-                        <th>Debit</th>
-                        <th>Credit</th>
-                        <th>YTD Debit</th>
-                        <th>YTD Credit</th>
+                        <th>Date</th>
+                        <th>Details</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Code</th>
+                        <th>Reference</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredData.map((item, index) => (
+                    {data.map((item, index) => (
                         <tr key={index}>
-                            <td>{item.account}</td>
-                            <td>{item.debit}</td>
-                            <td>{item.credit}</td>
-                            <td>{item.ytdDebit}</td>
-                            <td>{item.ytdCredit}</td>
+                            <td>{item.Date}</td>
+                            <td>{item.Details}</td>
+                            <td>{item.Type}</td>
+                            <td>{item.Amount}</td>
+                            <td>{item.Code}</td>
+                            <td>{item.Reference}</td>
                         </tr>
                     ))}
                     <tr>
-                        <th>Total Revenue:</th>
-                        <td></td>
-                        <td>{totalRevenue}</td>
-                        <td></td>
-                        <td>{ytdTotalRevenue}</td>
+                        <th>Total Credits:</th>
+                        <td colSpan="5">{totalCredits}</td>
                     </tr>
                     <tr>
-                        <th>Total Expenses:</th>
-                        <td>{totalExpenses}</td>
-                        <td></td>
-                        <td>{ytdTotalExpenses}</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <th>Profit/Loss:</th>
-                        <td colSpan="2">{totalRevenue - totalExpenses}</td>
-                        <td colSpan="2">{ytdTotalRevenue - ytdTotalExpenses}</td>
+                        <th>Total Debits:</th>
+                        <td colSpan="5">{totalDebits}</td>
                     </tr>
                 </tbody>
             </table>
-            <button></button>
         </div>
     );
 }
