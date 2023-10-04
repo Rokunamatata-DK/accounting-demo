@@ -1,0 +1,15 @@
+{
+    "TCODE2": {
+        "description": "Description for TCODE2",
+        "account_numbers": [
+            "ACC003",
+            "ACC004"
+        ]
+    },
+    "TCODE1": {
+        "description": "Description for TCODE1",
+        "account_numbers": [
+            "ACC005"
+        ]
+    }
+}

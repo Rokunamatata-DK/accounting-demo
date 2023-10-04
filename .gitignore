@@ -46,6 +46,7 @@ packages/react-devtools-timeline/dist
 *.pyc
 *.pyo
 env/
+flask/
 venv/
 .venv/
 env*

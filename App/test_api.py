@@ -3,21 +3,22 @@ from flask_cors import CORS
 import csv
 import logging
 from datetime import datetime
-
+from TcodeManager import TcodeManager
 app = Flask(__name__)
 
 # Store the data in-memory for simplicity
 data = []
-
+manager = TcodeManager()
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 
-@app.route('/')
-def core_endpoint():
-    return jsonify({
-        "message": "Welcome to the core endpoint!",
-        "status": "success"
-    })
+# @app.route('/')
+# def core_endpoint():
+#     return jsonify({
+#         "message": "Welcome to the core endpoint!",
+#         "status": "success"
+#     })
+
 
 
 @app.route('/upload', methods=['Post'])
@@ -70,8 +71,25 @@ def filter_by_date(data, start_date, end_date):
 
 @app.route('/', methods=['GET'])
 def index():
-    return "Flask server running"
+    return "Flask server running1"
 
+
+@app.route('/tcodes', methods=['GET'])
+def list_tcodes():
+    return jsonify(manager.list_tcodes())
+
+@app.route('/tcode', methods=['POST'])
+def add_or_update_tcode():
+    data = request.json
+    tcode = data.get('tcode')
+    description = data.get('description')
+    account_numbers = data.get('account_numbers')
+    
+    if not tcode or not description or not account_numbers:
+        return jsonify({"error": "Missing required fields"}), 400
+
+    manager.add_tcode(tcode, description, account_numbers)
+    return jsonify({"message": "TCODE added/updated successfully"}), 200
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
