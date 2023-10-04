@@ -1,0 +1,46 @@
+{
+  "trialBalance": [
+    {
+      "account": "Cash",
+      "debit": 5000,
+      "credit": 0,
+      "ytdDebit": 25000,
+      "ytdCredit": 5000
+    },
+    {
+      "account": "Accounts Receivable",
+      "debit": 1200,
+      "credit": 0,
+      "ytdDebit": 9000,
+      "ytdCredit": 1000
+    },
+    {
+      "account": "Equipment",
+      "debit": 0,
+      "credit": 3000,
+      "ytdDebit": 0,
+      "ytdCredit": 10000
+    },
+    {
+      "account": "Accounts Payable",
+      "debit": 0,
+      "credit": 1500,
+      "ytdDebit": 0,
+      "ytdCredit": 7500
+    },
+    {
+      "account": "Loan",
+      "debit": 0,
+      "credit": 2000,
+      "ytdDebit": 500,
+      "ytdCredit": 5000
+    }
+  ],
+  "accountTypes": [
+    "Cash",
+    "Accounts Receivable",
+    "Equipment",
+    "Accounts Payable",
+    "Loan"
+  ]
+}
