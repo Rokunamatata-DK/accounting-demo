@@ -51,7 +51,7 @@ def get_trial_balance():
     start_date_input = request.headers.get('start')
     end_date_input = request.headers.get('end')
 
-    app.logger.debug(start_date_input)
+    
 
     filtered_data = data
     if start_date_input and end_date_input:
@@ -60,13 +60,21 @@ def get_trial_balance():
         app.logger.debug("debug", start_date, end_date)
         filtered_data = filter_by_date(data, start_date, end_date)
 
+    categorized = {}
+    
+    for item in filtered_data:
+        tcode = item['Tcode']
+        if tcode not in categorized.keys():
+            categorized[tcode]=[]
+        categorized.get(tcode).append(item)
+                    
     total_debit = sum(float(row['Amount'])
                       for row in filtered_data if float(row['Amount']) < 0)
     total_credit = sum(float(row['Amount'])
                        for row in filtered_data if float(row['Amount']) > 0)
 
     return jsonify({
-        "trialBalance": filtered_data,
+        "trialBalance": categorized,
         "Total_Debits": abs(total_debit),
         "Total_Credits": total_credit
     })

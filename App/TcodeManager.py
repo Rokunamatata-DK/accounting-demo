@@ -31,9 +31,9 @@ class TcodeManager:
         self._write_file(data)
 
 
-    def get_tcode(self, tcode):
+    def get_tcodes(self, tcode):
         data = self._read_file()
-        return data.get(tcode)
+        return data.keys()
 
     def remove_tcode(self, tcode):
         data = self._read_file()
@@ -53,8 +53,8 @@ if __name__ == '__main__':
     manager.add_tcode('TCODE3', 'Description for TCODE2', ['ACC003', 'ACC004'])
 
     print(manager.list_tcodes())
-    print(manager.get_tcode('TCODE1'))
+    print(manager.get_tcodes('TCODE1'))
 
     manager.remove_tcode('TCODE1')
-    print(manager.list_tcodes().items())
+    # print(manager.list_tcodes().items())
 
