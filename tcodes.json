@@ -6,10 +6,24 @@
             "ACC004"
         ]
     },
-    "TCODE1": {
+    "TCODE3": {
+        "description": "Description for TCODE2",
+        "account_numbers": [
+            "ACC003",
+            "ACC004"
+        ]
+    },
+    "Affinity Fitness": {
         "description": "Description for TCODE1",
         "account_numbers": [
-            "ACC005"
+            "Affinity Fitness",
+            "Affinity Fitness"
+        ]
+    },
+    "Empty detial": {
+        "description": "Description for TCODE1",
+        "account_numbers": [
+            ""
         ]
     }
 }

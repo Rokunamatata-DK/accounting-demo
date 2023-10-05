@@ -47,11 +47,14 @@ class TcodeManager:
 
 # Example usage:
 if __name__ == '__main__':
+    manager = TcodeManager()
     manager.add_tcode('TCODE1', 'Description for TCODE1', ['ACC001', 'ACC002'])
     manager.add_tcode('TCODE2', 'Description for TCODE2', ['ACC003', 'ACC004'])
+    manager.add_tcode('TCODE3', 'Description for TCODE2', ['ACC003', 'ACC004'])
 
     print(manager.list_tcodes())
     print(manager.get_tcode('TCODE1'))
 
     manager.remove_tcode('TCODE1')
-    print(manager.list_tcodes())
+    print(manager.list_tcodes().items())
+

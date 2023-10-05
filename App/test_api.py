@@ -27,9 +27,21 @@ def upload_csv():
     file = request.files['file']
     content = file.stream.read().decode("utf-8")
     csv_data = list(csv.DictReader(content.splitlines()))
+    for row in csv_data:
+        row['Tcode'] = '' 
     data = csv_data
+    # transactionManager.store_csv_data(csv_data)
+    app.logger.debug(csv_data[0:2])
     return jsonify({"message": "CSV uploaded successfully!"}), 200
 
+@app.route('/scan', methods=['Get'])
+def scanTcode():
+    for row in data:
+        for tocde, tcode_row in manager.list_tcodes().items():
+            if row['Details'] in tcode_row['account_numbers']:
+                app.logger.debug("match tcode",row['Details'])
+                row["Tcode"]= tocde
+    return jsonify({ "trialBalance":  data})
 
 @app.route('/trial_balance', methods=['POST'])
 def get_trial_balance():
@@ -58,6 +70,15 @@ def get_trial_balance():
         "Total_Debits": abs(total_debit),
         "Total_Credits": total_credit
     })
+
+@app.route('/transaction', methods=['Get'])
+def get_transactions():
+
+
+    return jsonify({
+       transactionManager.list_transaction()
+    })
+
 
 
 def filter_by_date(data, start_date, end_date):
