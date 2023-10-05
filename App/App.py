@@ -4,31 +4,27 @@ import csv
 import logging
 from datetime import datetime
 from TcodeManager import TcodeManager
+
+# start Flask
 app = Flask(__name__)
 
-# Store the data in-memory for simplicity
+# in-memory data 
 data = []
 manager = TcodeManager()
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 
-# @app.route('/')
-# def core_endpoint():
-#     return jsonify({
-#         "message": "Welcome to the core endpoint!",
-#         "status": "success"
-#     })
-
-
-
 @app.route('/upload', methods=['Post'])
 def upload_csv():
     global data
+    index =1
     file = request.files['file']
     content = file.stream.read().decode("utf-8")
     csv_data = list(csv.DictReader(content.splitlines()))
     for row in csv_data:
         row['Tcode'] = '' 
+        row['index'] = index
+        index +=1
     data = csv_data
     # transactionManager.store_csv_data(csv_data)
     app.logger.debug(csv_data[0:2])
@@ -36,12 +32,37 @@ def upload_csv():
 
 @app.route('/scan', methods=['Get'])
 def scanTcode():
+    start_date_input = request.headers.get('start')
+    end_date_input = request.headers.get('end')
+    
     for row in data:
         for tocde, tcode_row in manager.list_tcodes().items():
             if row['Details'] in tcode_row['account_numbers']:
                 app.logger.debug("match tcode",row['Details'])
                 row["Tcode"]= tocde
-    return jsonify({ "trialBalance":  data})
+    
+    filtered_data = data
+    if start_date_input and end_date_input:
+        start_date = datetime.strptime(start_date_input, '%d/%m/%Y')
+        end_date = datetime.strptime(end_date_input, '%d/%m/%Y')
+        app.logger.debug("debug", start_date, end_date)
+        filtered_data = filter_by_date(data, start_date, end_date)
+        
+    return jsonify({ "transications":  filtered_data})
+
+@app.route('/transaction', methods=['Get'])
+def transaction():
+    start_date_input = request.headers.get('start')
+    end_date_input = request.headers.get('end')
+    
+    filtered_data = data
+    if start_date_input and end_date_input:
+        start_date = datetime.strptime(start_date_input, '%d/%m/%Y')
+        end_date = datetime.strptime(end_date_input, '%d/%m/%Y')
+        app.logger.debug("debug", start_date, end_date)
+        filtered_data = filter_by_date(data, start_date, end_date)
+        
+    return jsonify({ "transications":  filtered_data})
 
 @app.route('/trial_balance', methods=['POST'])
 def get_trial_balance():
@@ -50,8 +71,6 @@ def get_trial_balance():
 
     start_date_input = request.headers.get('start')
     end_date_input = request.headers.get('end')
-
-    
 
     filtered_data = data
     if start_date_input and end_date_input:
@@ -79,15 +98,18 @@ def get_trial_balance():
         "Total_Credits": total_credit
     })
 
-@app.route('/transaction', methods=['Get'])
-def get_transactions():
+@app.route('/setTcode', methods=['POST'])
+def set_Tcode():
+    index = request.headers.get('index')
+    tcode = request.headers.get('tcode')
+    # return jsonify({"message": "Tcode update successfully!"},index,tcode), 200
 
-
-    return jsonify({
-       transactionManager.list_transaction()
-    })
-
-
+    for item in data:
+        if item['index'] == int(index):
+            item['Tcode'] = tcode
+            return jsonify({"message": "Tcode update successfully!"}), 200
+        
+    return jsonify({"message": "index not found"}), 400
 
 def filter_by_date(data, start_date, end_date):
     filtered_data = []
@@ -97,11 +119,9 @@ def filter_by_date(data, start_date, end_date):
             filtered_data.append(row)
     return filtered_data
 
-
 @app.route('/', methods=['GET'])
 def index():
     return "Flask server running1"
-
 
 @app.route('/tcodes', methods=['GET'])
 def list_tcodes():
