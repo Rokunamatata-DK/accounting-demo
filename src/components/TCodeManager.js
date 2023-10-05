@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-function TCodeManager() {
-    const [tCodes, setTCodes] = useState([100, 110, 111, 200, 210, 300, 310, 400, 500]);
+
+function TCodeManager({ tCodes, setTCodes }) {
     const [newTCode, setNewTCode] = useState('');
 
     const addTCode = () => {
@@ -28,11 +28,11 @@ function TCodeManager() {
         <div>
             <h2>Manage T Codes</h2>
             <div>
-                <input
-                    type="number"
-                    value={newTCode}
-                    onChange={e => setNewTCode(e.target.value)}
-                    placeholder="Enter new T code"
+                <input 
+                    type="number" 
+                    value={newTCode} 
+                    onChange={e => setNewTCode(e.target.value)} 
+                    placeholder="Enter new T code" 
                 />
                 <button onClick={addTCode}>Add T Code</button>
             </div>
@@ -52,9 +52,5 @@ function TCodeManager() {
         </div>
     );
 }
-
-export const getTCodes = () => {
-    return [100, 110, 111, 200, 210, 300, 310, 400, 500];
-};
 
 export default TCodeManager;

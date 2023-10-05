@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { getTCodes } from './TCodeManager';
 
-
-function TCodeAssign() {
+function TCodeAssign({ tCodes }) {
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [totalCredits, setTotalCredits] = useState(0);
     const [totalDebits, setTotalDebits] = useState(0);
-    const [tCodeAssignments, setTCodeAssignments] = useState({}); // New state for T code assignments
-
-    const tCodes = getTCodes(); // Assuming TCodeManager has a getTCodes function
+    const [tCodeAssignments, setTCodeAssignments] = useState({});
 
     const fetchData = () => {
         const endpointUrl = "http://127.0.0.1:5000/trial_balance";
@@ -75,7 +71,7 @@ function TCodeAssign() {
                         <th>Amount</th>
                         <th>Code</th>
                         <th>Reference</th>
-                        <th>T Code</th> {/* New column header */}
+                        <th>T Code</th>
                     </tr>
                 </thead>
                 <tbody>
