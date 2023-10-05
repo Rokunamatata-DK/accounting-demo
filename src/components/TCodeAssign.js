@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-function TrialBalance() {
+function TCodeAssign({ tCodes }) {
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [totalCredits, setTotalCredits] = useState(0);
     const [totalDebits, setTotalDebits] = useState(0);
-
-    // const formatDate = (dateString) => {
-    //     const [year, month, day] = dateString.split('-');
-    //     return `${day}/${month}/${year}`;
-    // };
+    const [tCodeAssignments, setTCodeAssignments] = useState({});
 
     const fetchData = () => {
         const endpointUrl = "http://127.0.0.1:5000/trial_balance";
@@ -37,7 +33,12 @@ function TrialBalance() {
             });
     };
 
-
+    const handleTCodeChange = (index, selectedTCode) => {
+        setTCodeAssignments(prevState => ({
+            ...prevState,
+            [index]: selectedTCode
+        }));
+    };
 
     useEffect(() => {
         fetchData();
@@ -70,6 +71,7 @@ function TrialBalance() {
                         <th>Amount</th>
                         <th>Code</th>
                         <th>Reference</th>
+                        <th>T Code</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,15 +83,26 @@ function TrialBalance() {
                             <td>{item.Amount}</td>
                             <td>{item.Code}</td>
                             <td>{item.Reference}</td>
+                            <td>
+                                <select
+                                    value={tCodeAssignments[index] || ''}
+                                    onChange={e => handleTCodeChange(index, e.target.value)}
+                                >
+                                    <option value="">Select T Code</option>
+                                    {tCodes.map(tCode => (
+                                        <option key={tCode} value={tCode}>{tCode}</option>
+                                    ))}
+                                </select>
+                            </td>
                         </tr>
                     ))}
                     <tr>
                         <th>Total Credits:</th>
-                        <td colSpan="5">{totalCredits}</td>
+                        <td colSpan="6">{totalCredits}</td>
                     </tr>
                     <tr>
                         <th>Total Debits:</th>
-                        <td colSpan="5">{totalDebits}</td>
+                        <td colSpan="6">{totalDebits}</td>
                     </tr>
                 </tbody>
             </table>
@@ -97,4 +110,4 @@ function TrialBalance() {
     );
 }
 
-export default TrialBalance;
+export default TCodeAssign;
