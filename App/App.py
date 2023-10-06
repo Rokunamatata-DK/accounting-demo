@@ -86,12 +86,11 @@ def get_trial_balance():
         if tcode not in categorized.keys():
             categorized[tcode]=[]
         categorized.get(tcode).append(item)
-                    
-    total_debit = sum(float(row['Amount'])
-                      for row in filtered_data if float(row['Amount']) < 0)
-    total_credit = sum(float(row['Amount'])
-                       for row in filtered_data if float(row['Amount']) > 0)
-
+                        
+    total_debit_cents = sum(int(float(row['Amount']) * 100) for row in filtered_data if float(row['Amount']) < 0)
+    total_debit = total_debit_cents / 100.0
+    total_credit_cents = sum(int(float(row['Amount']) * 100) for row in filtered_data if float(row['Amount']) > 0)
+    total_credit = total_credit_cents / 100.0
     return jsonify({
         "trialBalance": categorized,
         "Total_Debits": abs(total_debit),
