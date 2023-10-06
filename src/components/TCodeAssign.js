@@ -1,113 +1,105 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-function TCodeAssign({ tCodes }) {
-    const [data, setData] = useState([]);
-    const [error, setError] = useState(null);
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [totalCredits, setTotalCredits] = useState(0);
-    const [totalDebits, setTotalDebits] = useState(0);
-    const [tCodeAssignments, setTCodeAssignments] = useState({});
+const TCodeAssign = () => {
+    const [file, setFile] = useState(null);
+    const [transactions, setTransactions] = useState([]);
+    const [tcodes, setTcodes] = useState({});
 
-    const fetchData = () => {
-        const endpointUrl = "http://127.0.0.1:5000/trial_balance";
-
-        const headers = {
-            "Content-Type": "application/json",
-            "start": startDate,
-            "end": endDate
-        };
-
-        fetch(endpointUrl, {
-            method: "POST",
-            headers: headers
-        })
-            .then(response => response.json())
-            .then(data => {
-                setData(data.trialBalance);
-                setTotalCredits(data.Total_Credits);
-                setTotalDebits(data.Total_Debits);
+    useEffect(() => {
+        // Fetch Tcodes for dropdown
+        axios.get('http://localhost:5000/tcodes')
+            .then(response => {
+                setTcodes(response.data);
             })
             .catch(error => {
-                setError(error.toString());
+                console.error("Error fetching Tcodes:", error);
+            });
+
+        // Fetch transactions
+        axios.get('http://localhost:5000/transaction')
+            .then(response => {
+                setTransactions(response.data.transications);
+            })
+            .catch(error => {
+                console.error("Error fetching transactions:", error);
+            });
+    }, []);
+
+    const onFileChange = (e) => {
+        setFile(e.target.files[0]);
+    };
+
+    const onUpload = () => {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        axios.post('http://localhost:5000/upload', formData)
+            .then(response => {
+                console.log(response.data);
+                setTransactions(response.data.transications);
+            })
+            .catch(error => {
+                console.error("Error uploading CSV:", error);
             });
     };
 
-    const handleTCodeChange = (index, selectedTCode) => {
-        setTCodeAssignments(prevState => ({
-            ...prevState,
-            [index]: selectedTCode
-        }));
+    const handleTCodeChange = (e, index) => {
+        const updatedTransactions = [...transactions];
+        updatedTransactions[index].Tcode = e.target.value;
+
+        setTransactions(updatedTransactions);
+
+        axios.post('http://localhost:5000/setTcode', null, {
+            headers: {
+                'index': updatedTransactions[index].index,
+                'tcode': e.target.value
+            }
+        })
+            .then(response => {
+                console.log(response.data.message);
+            })
+            .catch(error => {
+                console.error("Error setting Tcode:", error);
+            });
     };
-
-    useEffect(() => {
-        fetchData();
-    }, [startDate, endDate]);
-
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
 
     return (
         <div>
-            <label>
-                Start Date:
-                <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
-            </label>
+            <input type="file" onChange={onFileChange} />
+            <button onClick={onUpload}>Upload</button>
 
-            <label>
-                End Date:
-                <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
-            </label>
-
-            <button onClick={fetchData}>Fetch Data</button>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Details</th>
-                        <th>Type</th>
-                        <th>Amount</th>
-                        <th>Code</th>
-                        <th>Reference</th>
-                        <th>T Code</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {data.map((item, index) => (
-                        <tr key={index}>
-                            <td>{item.Date}</td>
-                            <td>{item.Details}</td>
-                            <td>{item.Type}</td>
-                            <td>{item.Amount}</td>
-                            <td>{item.Code}</td>
-                            <td>{item.Reference}</td>
-                            <td>
-                                <select
-                                    value={tCodeAssignments[index] || ''}
-                                    onChange={e => handleTCodeChange(index, e.target.value)}
-                                >
-                                    <option value="">Select T Code</option>
-                                    {tCodes.map(tCode => (
-                                        <option key={tCode} value={tCode}>{tCode}</option>
-                                    ))}
-                                </select>
-                            </td>
+            {transactions.length > 0 && (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Details</th>
+                            <th>Amount</th>
+                            <th>TCode</th>
                         </tr>
-                    ))}
-                    <tr>
-                        <th>Total Credits:</th>
-                        <td colSpan="6">{totalCredits}</td>
-                    </tr>
-                    <tr>
-                        <th>Total Debits:</th>
-                        <td colSpan="6">{totalDebits}</td>
-                    </tr>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {transactions.map((transaction, index) => (
+                            <tr key={index}>
+                                <td>{transaction.Date}</td>
+                                <td>{transaction.Details}</td>
+                                <td>{transaction.Amount}</td>
+                                <td>
+                                    <select value={transaction.Tcode} onChange={(e) => handleTCodeChange(e, index)}>
+                                        <option value="">Select TCode</option>
+                                        {Object.keys(tcodes).map(tcode => (
+                                            <option key={tcode} value={tcode}>{tcode}</option>
+                                        ))}
+                                    </select>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
-}
+};
 
 export default TCodeAssign;

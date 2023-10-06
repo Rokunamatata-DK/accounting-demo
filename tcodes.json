@@ -1,29 +1,35 @@
 {
-    "TCODE2": {
-        "description": "Description for TCODE2",
+    "100": {
+        "description": "Sport expences",
         "account_numbers": [
-            "ACC003",
-            "ACC004"
+            "101",
+            "102"
         ]
     },
-    "TCODE3": {
-        "description": "Description for TCODE2",
+    "200": {
+        "description": "Food expences",
         "account_numbers": [
-            "ACC003",
-            "ACC004"
+            "201",
+            "202"
         ]
     },
-    "Affinity Fitness": {
-        "description": "Description for TCODE1",
-        "account_numbers": [
-            "Affinity Fitness",
-            "Affinity Fitness"
-        ]
+    "300": {
+        "description": "entertainment expences",
+        "account_numbers": []
     },
-    "Empty detial": {
-        "description": "Description for TCODE1",
+    "400": {
+        "description": "Income earned",
+        "account_numbers": []
+    },
+    "500": {
+        "description": "Living cost",
+        "account_numbers": []
+    },
+    "600": {
+        "description": "Other",
         "account_numbers": [
-            ""
+            "601",
+            "602"
         ]
     }
 }
