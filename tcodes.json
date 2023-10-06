@@ -1,35 +1,26 @@
 {
-    "100": {
-        "description": "Sport expences",
-        "account_numbers": [
-            "101",
-            "102"
-        ]
-    },
-    "200": {
-        "description": "Food expences",
-        "account_numbers": [
-            "201",
-            "202"
-        ]
-    },
-    "300": {
-        "description": "entertainment expences",
-        "account_numbers": []
-    },
-    "400": {
-        "description": "Income earned",
-        "account_numbers": []
-    },
-    "500": {
-        "description": "Living cost",
-        "account_numbers": []
-    },
-    "600": {
-        "description": "Other",
-        "account_numbers": [
-            "601",
-            "602"
-        ]
-    }
+  "100": {
+    "description": "Sport expences",
+    "account_numbers": ["Phoebe", "Basketball Ben"]
+  },
+  "200": {
+    "description": "Food expences",
+    "account_numbers": ["06-0821-0920509-00"]
+  },
+  "300": {
+    "description": "entertainment expences",
+    "account_numbers": []
+  },
+  "400": {
+    "description": "Income earned",
+    "account_numbers": []
+  },
+  "500": {
+    "description": "Living cost",
+    "account_numbers": []
+  },
+  "600": {
+    "description": "Other",
+    "account_numbers": []
+  }
 }

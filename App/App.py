@@ -140,24 +140,6 @@ def add_or_update_tcode():
     manager.add_tcode(tcode, description, account_numbers)
     return jsonify({"message": "TCODE added/updated successfully"}), 200
 
-@app.route('/addDetailToTcode', methods=['POST'])
-def add_detail_to_tcode():
-    tcode = request.headers.get('tcode')
-    detail = request.headers.get('detail')  # Get the detail string from headers
-
-    # Fetch the current tcode data
-    tcode_data = manager.list_tcodes().get(tcode)
-
-    if not tcode_data:
-        return jsonify({"message": "Tcode not found"}), 404
-
-    # Add detail to account_numbers if it doesn't already exist
-    if detail not in tcode_data['account_numbers']:
-        tcode_data['account_numbers'].append(detail)
-        manager.add_tcode(tcode, tcode_data['description'], tcode_data['account_numbers'])
-
-    return jsonify({"message": "Detail added successfully!"}), 200
-
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)

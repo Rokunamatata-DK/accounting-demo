@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const TCodeAssign = () => {
-    const [file, setFile] = useState(null);
+    // const [file, setFile] = useState(null);
+    var file = null;
     const [transactions, setTransactions] = useState([]);
     const [tcodes, setTcodes] = useState({});
 
@@ -27,7 +28,7 @@ const TCodeAssign = () => {
     }, []);
 
     const onFileChange = (e) => {
-        setFile(e.target.files[0]);
+        file = e.target.files[0];
     };
 
     const onUpload = () => {
@@ -37,31 +38,101 @@ const TCodeAssign = () => {
         axios.post('http://localhost:5000/upload', formData)
             .then(response => {
                 console.log(response.data);
-                setTransactions(response.data.transications);
             })
             .catch(error => {
                 console.error("Error uploading CSV:", error);
             });
+        axios.get('http://localhost:5000/transaction')
+            .then(response => {
+                setTransactions(response.data.transications);
+            })
+            .catch(error => {
+                console.error("Error fetching transactions:", error);
+            });
+    };
+
+    const Scan = () => {
+
+        axios.get('http://localhost:5000/scan')
+            .then(response => {
+                axios.get('http://localhost:5000/transaction')
+                    .then(response => {
+                        setTransactions(response.data.transications);
+                    })
+                    .catch(error => {
+                        console.error("Error fetching transactions:", error);
+                    });
+            })
+            .catch(error => {
+                console.error("Error fetching transactions:", error);
+            });
     };
 
     const handleTCodeChange = (e, index) => {
-        const updatedTransactions = [...transactions];
-        updatedTransactions[index].Tcode = e.target.value;
+        // const updatedTransactions = [...transactions];
+        // updatedTransactions[index].Tcode = e.target.value;
 
-        setTransactions(updatedTransactions);
+        // setTransactions(updatedTransactions);
 
         axios.post('http://localhost:5000/setTcode', null, {
             headers: {
-                'index': updatedTransactions[index].index,
+                'index': transactions[index].index,
                 'tcode': e.target.value
             }
         })
             .then(response => {
                 console.log(response.data.message);
+                axios.get('http://localhost:5000/transaction')
+                    .then(response => {
+                        setTransactions(response.data.transications);
+                    })
+                    .catch(error => {
+                        console.error("Error fetching transactions:", error);
+                    });
             })
             .catch(error => {
                 console.error("Error setting Tcode:", error);
             });
+    };
+
+    const updateTCodePerference = (e, index) => {
+
+        if (transactions[index].Tcode !== "") {
+            var tcode = tcodes[transactions[index].Tcode];
+            var update_account_numbers = tcode.account_numbers.slice();
+            console.log(transactions[index])
+
+
+            update_account_numbers.push(transactions[index].Details)
+            // console.log(updateTcode)
+
+
+            var body = {
+                "tcode": transactions[index].Tcode, "description": tcode.description, "account_numbers": update_account_numbers
+            }
+            console.log(body)
+            axios.post('http://localhost:5000/tcode', body)
+                .then(response => {
+                    console.log(response.data.message);
+                })
+                .catch(error => {
+                    console.error("Error setting Tcode:", error);
+                });
+
+        }
+        // updatedTransactions[index].Tcode = e.target.value;
+
+        // const updateTcode = tcodes[0];
+        // updateTcode.account_numbers.append(transactions[index].Details);
+        // axios.post('http://localhost:5000/tcode', {
+        //     "tcode": updateTcode., "description": "Sport expences", "account_numbers": ["Phoebe", "Basketball Ben"]
+        // })
+        //     .then(response => {
+        //         console.log(response.data.message);
+        //     })
+        //     .catch(error => {
+        //         console.error("Error setting Tcode:", error);
+        //     });
     };
 
     return (
@@ -70,33 +141,37 @@ const TCodeAssign = () => {
             <button onClick={onUpload}>Upload</button>
 
             {transactions.length > 0 && (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Details</th>
-                            <th>Amount</th>
-                            <th>TCode</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {transactions.map((transaction, index) => (
-                            <tr key={index}>
-                                <td>{transaction.Date}</td>
-                                <td>{transaction.Details}</td>
-                                <td>{transaction.Amount}</td>
-                                <td>
-                                    <select value={transaction.Tcode} onChange={(e) => handleTCodeChange(e, index)}>
-                                        <option value="">Select TCode</option>
-                                        {Object.keys(tcodes).map(tcode => (
-                                            <option key={tcode} value={tcode}>{tcode}</option>
-                                        ))}
-                                    </select>
-                                </td>
+                <div><button onClick={Scan}>Scan</button>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Details</th>
+                                <th>Amount</th>
+                                <th>TCode</th>
+                                <th>memorise</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {transactions.map((transaction, index) => (
+                                <tr key={index}>
+                                    <td>{transaction.Date}</td>
+                                    <td>{transaction.Details}</td>
+                                    <td>{transaction.Amount}</td>
+                                    <td>
+                                        <select value={transaction.Tcode} onChange={(e) => handleTCodeChange(e, index)}>
+                                            <option value="">Select TCode</option>
+                                            {Object.keys(tcodes).map(tcode => (
+                                                <option key={tcode} value={tcode}>{tcode}</option>
+                                            ))}
+                                        </select>
+                                    </td>
+                                    <td><button onClick={(e) => updateTCodePerference(e, index)}>updateTCodePerference</button></td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             )}
         </div>
     );
