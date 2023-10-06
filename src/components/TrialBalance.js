@@ -45,8 +45,6 @@ const TrialBalance = () => {
     }
     return (
         <div>
-            <h2>Trial Balance</h2>
-
             <table>
                 <thead>
                     <tr>
@@ -60,9 +58,6 @@ const TrialBalance = () => {
                 </thead>
                 <tbody>
                     {Object.entries(trialBalanceData.trialBalance).map(([tcode, transactions]) => {
-                       
-
-
                         const [debit, credit] = process_data(transactions);
                         return (
                             <tr key={tcode}>
