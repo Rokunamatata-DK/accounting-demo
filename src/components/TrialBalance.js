@@ -41,7 +41,7 @@ const TrialBalance = () => {
     }, []);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <div className="ContentContainer">Loading...</div>;
     }
     return (
         <div className="ContentContainer">
