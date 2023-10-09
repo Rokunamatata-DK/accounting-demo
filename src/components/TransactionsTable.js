@@ -17,6 +17,7 @@ function TransactionsTable() {
 
     return (
         <div className="table-container">
+            <h2>Transaction</h2>
             <table border="1" className="transactions-table">
                 <thead>
                     <tr>

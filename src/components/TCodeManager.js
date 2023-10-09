@@ -44,7 +44,7 @@ const TCodeManager = () => {
 
     return (
         <div className="ContentContainer">
-            <h2>Tcodes</h2>
+            <h2>TCode Manager</h2>
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error}</p>}
             <ul>
