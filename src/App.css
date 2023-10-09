@@ -53,11 +53,15 @@ nav a.active {
 /* General Styling*/
 .ContentContainer {
   font-family: Arial, sans-serif;
-  max-width: 800px;
+  max-width: 920px;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #e0e0e0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.CenterTable{
+  max-width: 100%;
+  width: 100%;
 }
 
 h2 {
@@ -142,4 +146,32 @@ td {
 
 tr:hover {
   background-color: #ddd;
+}
+
+/* Tcode manager */
+.tcode-title {
+  font-size: 1.5em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.input-wrapper {
+  margin-bottom: 1px;
+}
+
+.input-label {
+  display: block;
+  margin-bottom: -10px;
+  color: #555;
+  font-size: 1em;
+  padding: 0px;
+}
+
+.input-field {
+  width: 90%;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 1em;
 }

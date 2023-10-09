@@ -143,7 +143,7 @@ const TCodeAssign = () => {
 
             {transactions.length > 0 && (
                 <div><button onClick={Scan}>Scan</button>
-                    <table>
+                    <table className="CenterTable">
                         <thead>
                             <tr>
                                 <th>Date</th>

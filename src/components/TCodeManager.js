@@ -47,7 +47,7 @@ const TCodeManager = () => {
             <h2>TCode Manager</h2>
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error}</p>}
-            <ul>
+            {/* <ul>
                 {Object.entries(tcodes).map(([key, value]) => (
                     <li key={key}>
                         <strong>{key}:</strong> {value.description}
@@ -60,28 +60,54 @@ const TCodeManager = () => {
                         </ul>
                     </li>
                 ))}
-            </ul>
+            </ul> */}
+            <table className="CenterTable">
+                <thead>
+                    <tr>
+                        <th>Tcode</th>
+                        <th>Description</th>
+                        <th>Account Numbers</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {Object.entries(tcodes).map(([key, value]) => (
+                        <tr key={key}>
+                            <td>{key}</td>
+                            <td>{value.description}</td>
+                            <td>
+                                <ul>
+                                    {value.account_numbers.map((account, index) => (
+                                        <li key={index}>
+                                            {account}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
 
-            <h3>Add Tcode</h3>
-            <div>
-                <label>
+            <h3 className="tcode-title">Add Tcode</h3>
+            <div className="input-wrapper">
+                <label className="input-label">
                     Tcode:
-                    <input value={tcodeInput} onChange={(e) => setTcodeInput(e.target.value)} />
+                    <input className="input-field" value={tcodeInput} onChange={(e) => setTcodeInput(e.target.value)} />
                 </label>
             </div>
-            <div>
-                <label>
+            <div className="input-wrapper">
+                <label className="input-label">
                     Description:
-                    <input value={descriptionInput} onChange={(e) => setDescriptionInput(e.target.value)} />
+                    <input className="input-field" value={descriptionInput} onChange={(e) => setDescriptionInput(e.target.value)} />
                 </label>
             </div>
-            <div>
-                <label>
+            <div className="input-wrapper">
+                <label className="input-label">
                     Account Numbers (comma separated):
-                    <input value={accountNumbersInput} onChange={(e) => setAccountNumbersInput(e.target.value)} />
+                    <input className="input-field" value={accountNumbersInput} onChange={(e) => setAccountNumbersInput(e.target.value)} />
                 </label>
             </div>
-            <button onClick={addTcode}>Add</button>
+            <button className="button" onClick={addTcode}>Add</button>
         </div>
     );
 };

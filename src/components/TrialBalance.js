@@ -46,7 +46,7 @@ const TrialBalance = () => {
     return (
         <div className="ContentContainer">
             <h2>Trial Balance</h2>
-            <table>
+            <table className="CenterTable">
                 <thead>
                     <tr>
                         <th>Account Code</th>
