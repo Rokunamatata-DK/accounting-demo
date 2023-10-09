@@ -1,0 +1,89 @@
+/* ------ Slick CAROUSEL ---------------------------- */
+#small_banner .slick-slide {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+    opacity: 0.5;
+}
+#small_banner img {
+    cursor: pointer;
+}
+#small_banner .slick-center {
+    -webkit-filter: grayscale(0);
+    filter: grayscale(0);
+    opacity: 1
+}
+#small_banner:hover .slick-prev {
+    left: 0;
+    -webkit-transition: all ease-in 0.3s;
+    transition: all ease-in 0.3s
+}
+#small_banner:hover .slick-next {
+    right: 0;
+    -webkit-transition: all ease-in 0.3s;
+    transition: all ease-in 0.3s
+}
+/* For slick small-banner-2*/
+#small_banner-2 .slick-slide {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+    opacity: 0.5;
+}
+#small_banner-2 img {
+    cursor: pointer;
+   
+}
+#small_banner-2 .slick-center {
+    -webkit-filter: grayscale(0);
+    filter: grayscale(0);
+    opacity: 1
+}
+#small_banner-2:hover .slick-prev {
+    left: 0;
+    -webkit-transition: all ease-in 0.3s;
+    transition: all ease-in 0.3s
+}
+#small_banner-2:hover .slick-next {
+    right: 0;
+    -webkit-transition: all ease-in 0.3s;
+    transition: all ease-in 0.3s
+}
+.port_details_all_img {
+    overflow: hidden
+}
+.page-link:hover {
+    color: #01a9ac
+}
+.slick-prev {
+    left: -45px;
+    z-index: 1;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.62);
+    width: 4%;
+    -webkit-transition: all ease-in 0.3s;
+    transition: all ease-in 0.3s
+}
+.slick-prev:focus,
+.slick-prev:hover {
+    color: transparent;
+    outline: none;
+    background: rgba(0, 0, 0, 0.8)
+}
+.brighttheme-icon-sticker:after {
+    top: -5px;
+    content: "\002016"
+}
+.slick-next {
+    right: -45px;
+    z-index: 1;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.62);
+    width: 4%;
+    -webkit-transition: all ease-in 0.3s;
+    transition: all ease-in 0.3s
+}
+.slick-next:focus,
+.slick-next:hover {
+    color: transparent;
+    outline: none;
+    background: rgba(0, 0, 0, 0.8)
+}

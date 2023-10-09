@@ -1,0 +1,112 @@
+ 
+ /* Full Calender CSS */
+ #wrap {
+  width: 100%;
+  margin: 0 auto;
+}
+#external-events {
+  float: left;
+  width: 100%;
+  padding: 0 10px;
+  background: transparent;
+  text-align: left;
+}
+#external-events div{
+  width: 100%;
+}
+#external-events h4 {
+  font-size: 16px;
+  margin-top: 0;
+  padding-top: 1em;
+}
+#external-events .fc-event {
+  margin: 10px 0;
+  cursor: pointer;
+  background-color: #17a2b8;
+  color:#fff;
+  padding: 10px;
+  border: none;
+}
+#external-events .fc-event-container a {
+  margin: 10px 0;
+  cursor: pointer;
+  background-color: #17a2b8;
+  color:#fff;
+  padding: 10px;
+  border: none;
+}
+.fc-toolbar h2 {
+  margin: 0;
+  color: #FFF;
+  }
+#external-events .info{
+  background-color: #17a2b8;
+  color:#fff;
+  padding: 10px;
+  border: none;
+}
+#external-events .success{
+  background-color: #28a745;
+  color:#fff;
+  padding: 10px;
+  border: none;
+}
+#external-events .danger{
+  background-color: #dc3545;
+  color:#fff;
+  padding: 10px;
+  border: none;
+}
+#external-events .warning{
+  background-color: #ffc107;
+  color:#fff;
+  padding: 10px;
+  border: none;
+}
+#external-events .primary{
+  background-color: #007bff;
+  color:#fff;
+  padding: 10px;
+  border: none;
+}
+#external-events .dark{
+  background-color: #343a40;
+  color:#fff;
+  padding: 10px;
+  border: none;
+}
+#external-events p {
+  margin: 1.5em 0;
+  font-size: 11px;
+  color: #666;
+}
+#external-events p input {
+  margin: 0;
+  vertical-align: middle;
+}
+#calendar {
+  float: left;
+  width: 100%;
+}
+.fc-button {
+  color: inherit;
+  border: 1px solid #e7eaec;
+  cursor: pointer;
+  display: inline-block;
+  height: 1.9em;
+  line-height: 1.9em;
+  overflow: hidden;
+  padding: 0 0.6em;
+  position: relative;
+  white-space: nowrap;
+}
+.fc-state-active {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+  color: #ffffff;
+}
+.fc-title{
+    padding: 10px;
+}
+
+
