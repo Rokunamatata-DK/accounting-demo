@@ -10,7 +10,7 @@ const TrialBalance = () => {
         let debit = 0;
         let credit = 0;
         transactions.forEach(transaction => {
-            const amount = parseInt(transaction.Amount*100);
+            const amount = parseInt(transaction.Amount * 100);
             if (amount > 0) {
                 credit += amount;
             } else {
@@ -18,7 +18,7 @@ const TrialBalance = () => {
             }
         });
 
-        return [parseFloat(debit/100).toFixed(2) ,parseFloat(credit/100).toFixed(2)];
+        return [parseFloat(debit / 100).toFixed(2), parseFloat(credit / 100).toFixed(2)];
     }
     useEffect(() => {
         const fetchData = async () => {
@@ -45,6 +45,7 @@ const TrialBalance = () => {
     }
     return (
         <div className="ContentContainer">
+            <h2>Trial Balance</h2>
             <table>
                 <thead>
                     <tr>

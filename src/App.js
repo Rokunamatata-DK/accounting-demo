@@ -33,7 +33,6 @@ function App() {
                     <Routes>
                         <Route path="/" element={
                             <>
-                                <h2>Transaction</h2>
                                 <TCodeAssign
                                     tCodes={tCodes}
                                     assignedTCodes={assignedTCodes}
@@ -43,7 +42,6 @@ function App() {
                         } />
                         <Route path="/transaction" element={
                             <>
-                                <h2>Transaction</h2>
                                 <TCodeAssign
                                     tCodes={tCodes}
                                     assignedTCodes={assignedTCodes}
@@ -53,13 +51,11 @@ function App() {
                         } />
                         <Route path="/trial-balance" element={
                             <>
-                                <h2>Trial Balance</h2>
                                 <TrialBalance assignedTCodes={assignedTCodes} />
                             </>
                         } />
                         <Route path="/tcode-manager" element={
                             <>
-                                <h2>TCode Manager</h2>
                                 <TCodeManager tCodes={tCodes} setTCodes={setTCodes} />
                             </>
                         } />
