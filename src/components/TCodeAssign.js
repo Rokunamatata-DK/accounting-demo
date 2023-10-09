@@ -167,7 +167,7 @@ const TCodeAssign = () => {
                                             ))}
                                         </select>
                                     </td>
-                                    <td><button onClick={(e) => updateTCodePerference(e, index)}>updateTCodePerference</button></td>
+                                    <td><button onClick={(e) => updateTCodePerference(e, index)}>Set TCode Perference</button></td>
                                 </tr>
                             ))}
                         </tbody>
