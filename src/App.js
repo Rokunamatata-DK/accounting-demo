@@ -13,7 +13,7 @@ function App() {
         <Router>
             <div className="App">
                 <header className="app-header">
-                    <h1>Client Name</h1>
+                    {/* <h1>Client Name</h1> */}
                     <nav>
                         <ul>
                             <li>
