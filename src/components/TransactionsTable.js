@@ -16,30 +16,32 @@ function TransactionsTable() {
     }, []); // The empty dependency array ensures this useEffect runs only once, similar to componentDidMount()
 
     return (
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Details</th>
-                    <th>Particulars</th>
-                    <th>Type</th>
-                    <th>Amount</th>
-                    <th>Tcode</th>
-                </tr>
-            </thead>
-            <tbody>
-                {transactions.map(transaction => (
-                    <tr key={transaction.index}>
-                        <td>{transaction.Date}</td>
-                        <td>{transaction.Details}</td>
-                        <td>{transaction.Particulars}</td>
-                        <td>{transaction.Type}</td>
-                        <td>{transaction.Amount}</td>
-                        <td>{transaction.Tcode}</td>
+        <div className="table-container">
+            <table border="1" className="transactions-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Details</th>
+                        <th>Particulars</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Tcode</th>
                     </tr>
-                ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {transactions.map(transaction => (
+                        <tr key={transaction.index}>
+                            <td>{transaction.Date}</td>
+                            <td>{transaction.Details}</td>
+                            <td>{transaction.Particulars}</td>
+                            <td>{transaction.Type}</td>
+                            <td>{transaction.Amount}</td>
+                            <td>{transaction.Tcode}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
     );
 }
 

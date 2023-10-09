@@ -136,7 +136,7 @@ const TCodeAssign = () => {
     };
 
     return (
-        <div>
+        <div className="ContentContainer">
             <input type="file" onChange={onFileChange} />
             <button onClick={onUpload}>Upload</button>
 

@@ -18,7 +18,7 @@ const TrialBalance = () => {
             }
         });
 
-        return [debit, credit];
+        return [debit.toFixed(3), credit.toFixed(3)];
     }
     useEffect(() => {
         const fetchData = async () => {
@@ -26,17 +26,17 @@ const TrialBalance = () => {
                 const tcodesResponse = await axios.get('http://localhost:5000/tcodes');
                 setTcodes(tcodesResponse.data);
                 console.log(tcodesResponse.data); // Log the fetched tcodes data
-    
+
                 const trialBalanceResponse = await axios.post('http://localhost:5000/trial_balance', null);
                 setTrialBalanceData(trialBalanceResponse.data);
                 console.log(trialBalanceResponse.data.trialBalance); // Log the fetched trial balance data
-    
+
                 setIsLoading(false);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
-    
+
         fetchData();
     }, []);
 
@@ -44,7 +44,7 @@ const TrialBalance = () => {
         return <div>Loading...</div>;
     }
     return (
-        <div>
+        <div className="ContentContainer">
             <table>
                 <thead>
                     <tr>
@@ -73,8 +73,8 @@ const TrialBalance = () => {
                     <tr>
                         <td></td>
                         <td></td>
-                        <td><strong>Total Debits:</strong> {trialBalanceData.Total_Debits}</td>
-                        <td><strong>Total Credits:</strong> {trialBalanceData.Total_Credits}</td>
+                        <td><strong>Total Debits:</strong> {trialBalanceData.Total_Debits.toFixed(2)}</td>
+                        <td><strong>Total Credits:</strong> {trialBalanceData.Total_Credits.toFixed(2)}</td>
                     </tr>
                 </tbody>
             </table>
